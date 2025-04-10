@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\TwoFactorController;
 use App\Http\Middleware\TwoFactor;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ Route::group([
 ], function ($router) {
     Route::post('/varify', [TwoFactorController::class, 'varify']);
     Route::get('/resendCode', [TwoFactorController::class, 'resendCode']);
+    Route::post('/addDates', [SecretaryController::class, 'addDates']);
 
 });
 

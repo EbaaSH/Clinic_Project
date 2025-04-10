@@ -10,9 +10,6 @@ use Validator;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 
-use SadiqSalau\LaravelOtp\Facades\Otp;
-
-use App\Otp\UserRegistrationOtp;
 
 
 class AuthController extends Controller

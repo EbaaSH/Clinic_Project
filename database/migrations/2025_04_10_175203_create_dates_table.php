@@ -10,12 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('_date', function (Blueprint $table) {
+        Schema::create('dates', function (Blueprint $table) {
             $table->id();
-            $table->string('status_for_patient');
-            $table->string('status_for_doctor');
+            $table->dateTime('date');
+            $table->string('status_for_patient')->nullable();
+            $table->string('status_for_doctor')->nullable();
             $table->boolean('blocked')->default(false);
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('_date');
+        Schema::dropIfExists('dates');
     }
 };
