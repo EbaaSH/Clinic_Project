@@ -53,5 +53,6 @@ Route::group([
     'middleware' => 'api',
 ], function ($router) {
     Route::get('/getAllDates', [PatientController::class, 'getAllDates'])->middleware([TwoFactor::class, Patient::class]);
+    Route::post('/reserveDate/{id}', [PatientController::class, 'reserveDate'])->middleware([TwoFactor::class, Patient::class]);
 });
 

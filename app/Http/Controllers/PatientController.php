@@ -18,5 +18,22 @@ class PatientController extends Controller
             return response()->json(['user not found'], 401);
         }
     }
+    public function reserveDate($id)
+    {
+        $user = auth()->user();
+        if ($user) {
+            $date = Date::where('id', $id)->update([
+                'status_for_patient' => "waiting",
+                'blocked' => true,
+                'user_id' => $user->id
+            ]);
+            if ($date) {
+                return response(['date reserve successfully'], 200);
+            } else {
+                return response(['date unreserve please try again'], 400);
+            }
+        }
+        return response()->json(['user not found'], 401);
+    }
 
 }
