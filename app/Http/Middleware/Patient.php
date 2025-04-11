@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Secretary
+class Patient
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Secretary
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
-        if (auth()->check() && $user->role === "secretary") {
+        if (auth()->check() && $user->role === "patient") {
             return $next($request);
         }
         return response()->json(['You cant access this page'], 400);

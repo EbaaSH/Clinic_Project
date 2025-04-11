@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\TwoFactorController;
+use App\Http\Middleware\Patient;
 use App\Http\Middleware\Secretary;
 use App\Http\Middleware\TwoFactor;
 use Illuminate\Http\Request;
@@ -45,5 +47,11 @@ Route::group([
     Route::post('/addDates', [SecretaryController::class, 'addDates'])->middleware([TwoFactor::class, Secretary::class]);
     Route::delete('/deleteDate/{id}', [SecretaryController::class, 'deleteDate'])->middleware([TwoFactor::class, Secretary::class]);
     Route::put('/updateDate/{id}', [SecretaryController::class, 'updateDate'])->middleware([TwoFactor::class, Secretary::class]);
+});
+
+Route::group([
+    'middleware' => 'api',
+], function ($router) {
+    Route::get('/getAllDates', [PatientController::class, 'getAllDates'])->middleware([TwoFactor::class, Patient::class]);
 });
 
