@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\TwoFactorController;
+use App\Http\Middleware\Secretary;
 use App\Http\Middleware\TwoFactor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,39 +37,13 @@ Route::group([
 ], function ($router) {
     Route::post('/varify', [TwoFactorController::class, 'varify']);
     Route::get('/resendCode', [TwoFactorController::class, 'resendCode']);
-    Route::post('/addDates', [SecretaryController::class, 'addDates']);
 
 });
+Route::group([
+    'middleware' => 'api',
+], function ($router) {
+    Route::post('/addDates', [SecretaryController::class, 'addDates'])->middleware([TwoFactor::class, Secretary::class]);
+    Route::delete('/deleteDate/{id}', [SecretaryController::class, 'deleteDate'])->middleware([TwoFactor::class, Secretary::class]);
+    Route::put('/updateDate/{id}', [SecretaryController::class, 'updateDate'])->middleware([TwoFactor::class, Secretary::class]);
+});
 
-
-// Route::post('/otp/verify', function (Request $request) {
-
-//     $request->validate([
-//         'email' => ['required', 'string', 'email', 'max:255'],
-//         'code' => ['required', 'string']
-//     ]);
-
-//     $otp = Otp::identifier($request->email)->attempt($request->code);
-
-//     if ($otp['status'] != Otp::OTP_PROCESSED) {
-//         abort(403, __($otp['status']));
-//     }
-
-//     return $otp['result'];
-// });
-
-
-// /** OTP Resend Route */
-// Route::post('/otp/resend', function (Request $request) {
-
-//     $request->validate([
-//         'email' => ['required', 'string', 'email', 'max:255']
-//     ]);
-
-//     $otp = Otp::identifier($request->email)->update();
-
-//     if ($otp['status'] != Otp::OTP_SENT) {
-//         abort(403, __($otp['status']));
-//     }
-//     return __($otp['status']);
-// });

@@ -45,7 +45,31 @@ class SecretaryController extends Controller
             'dates_created' => count($created),
             'dates' => $created
         ], 200);
-
+    }
+    public function deleteDate(Request $request, $id)
+    {
+        $date = Date::find($id);
+        if ($date) {
+            $date->delete();
+            return response()->json(['date deleted successfully'], 200);
+        }
+        return response()->json(['Date not found'], 404);
+    }
+    public function updateDate(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'date' => 'required|date'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $date = Date::find($id);
+        if ($date) {
+            $date->date = $request->input('date');
+            $date->save();
+            return response()->json(['date updated successfully'], 200);
+        }
+        return response()->json(['date not found'], 404);
 
     }
 }
