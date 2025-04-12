@@ -70,6 +70,9 @@ class SecretaryController extends Controller
             return response()->json(['date updated successfully'], 200);
         }
         return response()->json(['date not found'], 404);
-
     }
+
+
+
+
 }

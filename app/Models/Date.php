@@ -16,5 +16,6 @@ class Date extends Model
         'status_for_patient',
         'status_for_doctor',
         'blocked',
+        'user_id'
     ];
 }

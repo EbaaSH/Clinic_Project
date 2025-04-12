@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\TwoFactorController;
+use App\Http\Middleware\Doctor;
 use App\Http\Middleware\Patient;
 use App\Http\Middleware\Secretary;
 use App\Http\Middleware\TwoFactor;
@@ -54,5 +56,12 @@ Route::group([
 ], function ($router) {
     Route::get('/getAllDates', [PatientController::class, 'getAllDates'])->middleware([TwoFactor::class, Patient::class]);
     Route::post('/reserveDate/{id}', [PatientController::class, 'reserveDate'])->middleware([TwoFactor::class, Patient::class]);
+});
+
+Route::group([
+    'middleware' => 'api',
+], function ($router) {
+    Route::put('/previewDate/{id}', [DoctorController::class, 'previewDate'])->middleware([TwoFactor::class, Doctor::class]);
+    Route::get('/getDatesForDoctor', [DoctorController::class, 'getDatesForDoctor'])->middleware([TwoFactor::class, Doctor::class]);
 });
 
